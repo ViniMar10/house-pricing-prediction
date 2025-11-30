@@ -15,23 +15,20 @@ def train_models(df):
         X, y, test_size=0.2, random_state=42
     )
     
-    # Regressão Linear
     lr = LinearRegression()
     lr.fit(X_train, y_train)
     lr_pred = lr.predict(X_test)
     
-    # Random Forest
     rf = RandomForestRegressor(
         n_estimators=300, random_state=42, n_jobs=-1
     )
     rf.fit(X_train, y_train)
     rf_pred = rf.predict(X_test)
     
-    # MÉTRICAS CORRETAS (agora sim!)
     metrics = {
         'Regressão Linear': {
             'MAE': mean_absolute_error(y_test, lr_pred),
-            'RMSE': root_mean_squared_error(y_test, lr_pred),   # CORRIGIDO
+            'RMSE': root_mean_squared_error(y_test, lr_pred),
             'R2': r2_score(y_test, lr_pred)
         },
         'Random Forest': {
@@ -41,7 +38,6 @@ def train_models(df):
         }
     }
     
-    # Salvar modelos
     joblib.dump(rf, 'models/random_forest.pkl')
     joblib.dump(lr, 'models/linear_regression.pkl')
     joblib.dump(X.columns.tolist(), 'models/feature_names.pkl')
